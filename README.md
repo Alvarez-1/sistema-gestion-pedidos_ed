@@ -17,8 +17,8 @@ Demostrar el uso y aplicación de diversas estructuras de datos lineales y no li
 
 ## Integrantes del equipo
 OMAR STIVEN ALVAREZ TELLO
+
 YOLBER DANIEL MENDEZ HERRERA 
-____
 
 ## Instrucciones de ejecución
 1. Clonar el repositorio.
