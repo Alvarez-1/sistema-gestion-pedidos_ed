@@ -9,6 +9,7 @@ private String nombre;
 private double precio;
 private int cantidad;
 
+
     public Producto(int codigoProducto, String nombre, double precio, int cantidad) {
         this.codigoProducto = codigoProducto;
         this.nombre = nombre;
