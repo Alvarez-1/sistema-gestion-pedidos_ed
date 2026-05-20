@@ -44,6 +44,11 @@ public class Repartidor extends Persona{
     public void setCalificacion(double calificacion) {
         this.calificacion = calificacion;
     }
+
+    @Override
+    public String toString() {
+        return "Repartidor{" + "disponibilidad=" + disponibilidad + ", calificacion=" + calificacion + ", saldo=" + saldo + '}';
+    }
    
     
     
