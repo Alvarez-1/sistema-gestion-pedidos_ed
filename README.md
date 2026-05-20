@@ -17,9 +17,9 @@ Demostrar el uso y aplicación de diversas estructuras de datos lineales y no li
 
 ## Integrantes del equipo
 OMAR STIVEN ALVAREZ TELLO
-
-YOLBER DANIEL MENDEZ HERRERA 
-
+YOLBER DANIEL MENDEZ HERRERA
+JUAN SEBASTIAN MANJARES RESTREPO
+ 
 ## Instrucciones de ejecución
 1. Clonar el repositorio.
 2. Abrir el proyecto en su IDE favorito (IntelliJ IDEA, Eclipse, NetBeans).
