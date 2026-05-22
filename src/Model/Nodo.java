@@ -1,4 +1,4 @@
-package Logica;
+package Model;
 
 public class Nodo<T> {
 

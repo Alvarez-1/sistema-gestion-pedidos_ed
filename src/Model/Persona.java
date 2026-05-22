@@ -1,16 +1,11 @@
-
-package Logica;
-
-
-
-
+package Model;
 
 public class Persona {
- 
-   private long id;
-   private String nombre;
-   private long telefono;
-   private String zona;
+
+    private long id;
+    private String nombre;
+    private long telefono;
+    private String zona;
 
     @Override
     public String toString() {
@@ -22,6 +17,13 @@ public class Persona {
         this.nombre = nombre;
         this.telefono = telefono;
         this.zona = zona;
+    }
+
+    public Persona() {
+        this.id = 0;
+        this.nombre = "";
+        this.telefono = 0;
+        this.zona = "";
     }
 
     public String getZona() {
@@ -55,6 +57,5 @@ public class Persona {
     public void setTelefono(long telefono) {
         this.telefono = telefono;
     }
-    
-    
+
 }

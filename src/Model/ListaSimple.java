@@ -1,6 +1,4 @@
-package Logica;
-
-import Logica.Nodo;
+package Model;
 
 public class ListaSimple<T> {
 
@@ -62,10 +60,21 @@ public class ListaSimple<T> {
                 lista.append(actual.getDato()).append("\n");
                 actual = actual.getSiguiente();
             }
-        }else{
+        } else {
             lista.append("Lista vacia");
         }
 
+        return lista.toString();
+    }
+
+    public String mostrar(int tipo) {
+        StringBuilder lista = new StringBuilder();
+        Nodo<T> actual = primero;
+        while (actual != null) {
+            lista.append(((Producto) actual.getDato()).toString(tipo))
+                    .append("\n");
+            actual = actual.getSiguiente();
+        }
         return lista.toString();
     }
 
@@ -82,9 +91,10 @@ public class ListaSimple<T> {
         Nodo<T> nuevo = new Nodo<>(dato, null);
         if (esVacia()) {
             this.primero = this.ultimo = nuevo;
+        } else {
+            this.ultimo.setSiguiente(nuevo);
+            this.ultimo = nuevo;
         }
-        this.ultimo.setSiguiente(nuevo);
-        this.ultimo = nuevo;
         tamanio++;
     }
 
@@ -128,6 +138,18 @@ public class ListaSimple<T> {
         return false;
     }
 
+    public boolean buscarCodigo(int codigo) {
+        Nodo<Producto> actual = primero;
+        while (actual != null) {
+            Producto p = actual.getDato();
+            if (p.getCodigoProducto() == codigo) {
+                return true;
+            }
+            actual = actual.getSiguiente();
+        }
+        return false;
+    }
+
     public void eliminarDato(T dato) {
         if (!esVacia()) {
             if (dato.equals(primero.getDato())) {
@@ -147,58 +169,4 @@ public class ListaSimple<T> {
         }
     }
 
-//    public void insertarOrdenado(T dato) {
-//        if (esVacia()) {
-//            primero = ultimo = new Nodo2<>(dato,primero);
-//        } else {
-//            if (dato intaceoff <= primero.getDato()) {
-//                insertarPrimero(dato);
-//            } else if (dato >= ultimo.getDato()) {
-//                insertarUltimo(dato);
-//            } else {
-//                Listas.Nodo actual = primero;
-//                while (actual.getSiguiente() != null && dato >= actual.getSiguiente().getDato()) {
-//                    actual = actual.getSiguiente();
-//                }
-//                Listas.Nodo nuevo = new Listas.Nodo(dato, actual.getSiguiente());
-//                actual.setSiguiente(nuevo);
-//                tamanio++;
-//            }
-//        }
-//    }
-//    public void eliminarPares(){
-//        if (!esVacia()) {
-//            Nodo2<T> actual=primero;
-//            while(actual!=null){
-//                if (primero.getDato()%2==0) {
-//                    eliminarPrimero();
-//                    actual=primero;
-//                }else if (actual.getSiguiente()!=null&&actual.getSiguiente().getDato()%2==0) {
-//                    if (actual.getSiguiente()==ultimo) {
-//                        ultimo=actual;
-//                        ultimo.setSiguiente(null);
-//                    }else{
-//                    actual.setSiguiente(actual.getSiguiente().getSiguiente());
-//                    }
-//                    tamanio--;
-//                }else {
-//                actual=actual.getSiguiente();
-//                }
-//            }
-//        }
-//    
-//    }
-//    public String mostrarPares() {
-//        StringBuilder lista = new StringBuilder();
-//        if (!esVacia()) {
-//            Nodo2<T> actual = primero;
-//            while (actual != null) {
-//                if (actual.getDato() % 2 == 0) {
-//                    lista.append(actual.getDato()).append(" ");
-//                }
-//                actual = actual.getSiguiente();
-//            }
-//        }
-//        return lista.toString();
-//    }
 }

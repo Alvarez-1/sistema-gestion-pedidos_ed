@@ -1,18 +1,13 @@
-
-package Logica;
-
-
-
-
+package Model;
 
 public class Comercio {
 
-int codigo;
-String nombre;
-String tipoNegocio;
-String direccion;
-String zona;
-    ListaSimple<Producto> productos;
+    private int codigo;
+    private String nombre;
+    private String tipoNegocio;
+    private String direccion;
+    private String zona;
+    private ListaSimple<Producto> productos;
 
     public Comercio(int codigo, String nombre, String tipoNegocio, String direccion, String zona, ListaSimple<Producto> productos) {
         this.codigo = codigo;
@@ -23,7 +18,13 @@ String zona;
         this.productos = productos;
     }
 
- 
+    public ListaSimple<Producto> getProductos() {
+        return productos;
+    }
+
+    public void setProductos(ListaSimple<Producto> productos) {
+        this.productos = productos;
+    }
 
     public int getCodigo() {
         return codigo;
@@ -65,26 +66,21 @@ String zona;
         this.zona = zona;
     }
 
-    public ListaSimple<Producto> getProductos() {
-        return productos;
-    }
-
-    public void setProductos(ListaSimple<Producto> productos) {
-        this.productos = productos;
-    }
-
     @Override
     public String toString() {
-        return "Comercio{" + "codigo=" + codigo + ", nombre=" + nombre + ", tipoNegocio=" + tipoNegocio + ", direccion=" + direccion + ", zona=" + zona + ", productos=" + productos + '}';
+        return nombre.toUpperCase() + "\nCodigo: "+codigo+"\ntipoNegocio: " + tipoNegocio + "\ndireccion:" + direccion + "\tzona:" + zona + "\nPRODUCTOS\n" + productos.mostrar();
     }
 
-  
-    
-    
-    
-
-
-
-
-    
+   public Producto buscarProducto(int codigo) {
+        if (!productos.esVacia()) {
+            Nodo actual = productos.getPrimero();
+            while (actual != null) {
+                if (actual.getDato() instanceof Producto && ((Producto) actual.getDato()).getCodigoProducto() == codigo) {
+                    return (Producto) actual.getDato();
+                }
+                actual = actual.getSiguiente();
+            }
+        }
+        return null;
+    }
 }

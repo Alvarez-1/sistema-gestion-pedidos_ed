@@ -1,14 +1,11 @@
-
-package Logica;
-
+package Model;
 
 public class Producto {
 
-private int codigoProducto;
-private String nombre;
-private double precio;
-private int cantidad;
-
+    private int codigoProducto;
+    private String nombre;
+    private double precio;
+    private int cantidad;
 
     public Producto(int codigoProducto, String nombre, double precio, int cantidad) {
         this.codigoProducto = codigoProducto;
@@ -51,12 +48,18 @@ private int cantidad;
 
     @Override
     public String toString() {
-        return "Producto{" + "codigoProducto=" + codigoProducto + ", nombre=" + nombre + ", precio=" + precio + ", cantidad=" + cantidad + '}';
+        return "codigo: " + codigoProducto + "\tnombre: " + nombre + "\nprecio:" + precio + "\tcantidad:" + cantidad + "\n";
     }
 
-
-
-
-
+    public String toString(int tipo) {
+        switch (tipo) {
+            case 1:
+                return codigoProducto +" "+cantidad+"  " + nombre + "\t" + precio;
+            default:
+                return toString(); 
+        }
+    }
+    
+    
     
 }
