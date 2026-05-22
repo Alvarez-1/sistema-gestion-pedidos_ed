@@ -1,26 +1,33 @@
+package Model;
 
-
-package Logica;
-
-
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 public class Pedido {
-private int codigo;
-private Cliente usuario;
-private Repartidor rappi;
-private Comercio tienda;
-private ListaSimple<Producto> productosElegidos; 
-private int valorDeProducto = 0;
-private int valorDomicilio=0;
-private int valorTotal=0;
-private String estadoActual;
-private String fecha;
 
-    public Pedido(int codigo, Cliente usuario, Repartidor rappi, Comercio tienda) {
+    private int codigo;
+    private Cliente usuario;
+    private Repartidor rappi;
+    private Comercio tienda;
+    private ListaSimple<Producto> productosElegidos;
+    private double valorDeProducto;
+    private double valorDomicilio;
+    private double valorTotal;
+    private EstadoPedido estadoActual;
+    private String fecha;
+    private int tiempoEstimado;
+
+    public Pedido(int codigo, Cliente usuario, Comercio tienda) {
         this.codigo = codigo;
         this.usuario = usuario;
-        this.rappi = rappi;
         this.tienda = tienda;
+        this.valorDeProducto = 0;
+        this.valorDomicilio = 0;
+        this.valorTotal = 0;
+        this.fecha = fechaHora;
+        this.estadoActual=EstadoPedido.RECIBIDO;
+        this.productosElegidos = new ListaSimple<>();
+        this.tiempoEstimado=0;
     }
 
     public Comercio getTienda() {
@@ -63,37 +70,39 @@ private String fecha;
         this.productosElegidos = productosElegidos;
     }
 
-    public int getValorDeProducto() {
+    public double getValorDeProducto() {
         return valorDeProducto;
     }
 
-    public void setValorDeProducto(int valorDeProducto) {
+    public void setValorDeProducto(double valorDeProducto) {
         this.valorDeProducto = valorDeProducto;
     }
 
-    public int getValorDomicilio() {
+    public double getValorDomicilio() {
         return valorDomicilio;
     }
 
-    public void setValorDomicilio(int valorDomicilio) {
+    public void setValorDomicilio(double valorDomicilio) {
         this.valorDomicilio = valorDomicilio;
     }
 
-    public int getValorTotal() {
+    public double getValorTotal() {
         return valorTotal;
     }
 
-    public void setValorTotal(int valorTotal) {
+    public void setValorTotal(double valorTotal) {
         this.valorTotal = valorTotal;
     }
 
-    public String getEstadoActual() {
+    public EstadoPedido getEstadoActual() {
         return estadoActual;
     }
 
-    public void setEstadoActual(String estadoActual) {
+    public void setEstadoActual(EstadoPedido estadoActual) {
         this.estadoActual = estadoActual;
     }
+
+
 
     public String getFecha() {
         return fecha;
@@ -103,10 +112,89 @@ private String fecha;
         this.fecha = fecha;
     }
 
+    LocalDateTime ahora = LocalDateTime.now();
+    DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE dd/MM/yyyy HH:mm:ss");
+    String fechaHora = ahora.format(formato);
 
+    @Override
+    public String toString() {
+        return "PEDIDO " + codigo
+                + "\n" + fecha
+                + "\n" + usuario
+                + "" + tienda.getNombre().toUpperCase()
+                + "\nproductosElegidos:\n" + productosElegidos.mostrar(1)
+                + "valorProducto:\t" + valorDeProducto
+                + "\nvalorDomicilio:\t" + valorDomicilio
+                + "\nvalor Total:\t" + valorTotal
+                + "\nPedido " + estadoActual
+                + "\n" 
+                + ((rappi!=null)?"REPARTIDOR: " +rappi.getNombre()+"   ("+rappi.getCalificacion()+" +) "+rappi.getZona()+"\nTiempoExtimado: "+tiempoEstimado+" minutos":"")
+                + "\n";
+    }
 
+    public void agregarProducto(int codigoProducto, int cantidadElegida) {
+        Producto nuevo = tienda.buscarProducto(codigoProducto);
+        if (nuevo != null&&nuevo.getCantidad()>=cantidadElegida) {
+            if (productosElegidos.buscarCodigo(codigoProducto)) {
+                Nodo actual = productosElegidos.getPrimero();
+                while (actual != null) {
+                    Producto p = (Producto) actual.getDato();
+                    if (p.getCodigoProducto() == codigoProducto&&nuevo.getCantidad()>=cantidadElegida) {
+                        p.setCantidad(p.getCantidad()+cantidadElegida);
+                        p.setPrecio(p.getPrecio()+(nuevo.getPrecio()*cantidadElegida));
+                        break;
+                    }
+                    actual = actual.getSiguiente();
+                }
+            } else {
+                if (nuevo.getCantidad()>=cantidadElegida) {
+                Producto elegido = new Producto(nuevo.getCodigoProducto(), nuevo.getNombre(), nuevo.getPrecio() * cantidadElegida, cantidadElegida);
+                productosElegidos.insertarPrimero(elegido);
+                }
+            }
+            valorDeProducto += ((int)nuevo.getPrecio() * cantidadElegida);
+            nuevo.setCantidad(nuevo.getCantidad() - cantidadElegida);
+            estadoActual=EstadoPedido.ESPERANDO_REPARTIDOR;
+            System.out.println("Tu pedido fue recibido");
+        }
+    }
+    
+    public void eliminacionProducto(int codigoProducto, int cantidadElegida) {
+        Producto nuevo = tienda.buscarProducto(codigoProducto);
+        if (nuevo != null) {
+            if (productosElegidos.buscarCodigo(codigoProducto)) {
+                Nodo actual = productosElegidos.getPrimero();
+                while (actual != null) {
+                    Producto p = (Producto) actual.getDato();
+                    if (p.getCodigoProducto() == codigoProducto&&p.getCantidad()>=cantidadElegida) {
+                        if (p.getCantidad()-cantidadElegida==0) {
+                            productosElegidos.eliminarPrimero();
+                           valorDeProducto -= nuevo.getPrecio() * cantidadElegida;
+                            break;
+                        }
+                        System.out.println("Producto eliminado");
+                        p.setCantidad(p.getCantidad()-cantidadElegida);
+                        p.setPrecio(p.getPrecio()-(nuevo.getPrecio()*cantidadElegida));
+                        valorDeProducto -= nuevo.getPrecio() * cantidadElegida;
+                        nuevo.setCantidad(nuevo.getCantidad() + cantidadElegida);
+                        estadoActual=EstadoPedido.ESPERANDO_REPARTIDOR;
+                        break;
+                    }else{
+                    actual = actual.getSiguiente();
+                    }
+                }
+            }
+        }
+    }
 
+    public int getTiempoEstimado() {
+        return tiempoEstimado;
+    }
 
+    public void setTiempoEstimado(int tiempoEstimado) {
+        this.tiempoEstimado = tiempoEstimado;
+    }
 
+    
     
 }

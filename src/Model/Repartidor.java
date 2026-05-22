@@ -1,31 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
-package Logica;
 
-/**
- *
- * @author Usuario
- */
+package Model;
+
 public class Repartidor extends Persona{
    
    private boolean disponibilidad;
    private double calificacion;
-   private long saldo;
+   private int calificaciones;
+   private double saldo;
+      private Pila<Pedido> historialPedidos;
 
-    public Repartidor(boolean disponibilidad, double calificacion, long saldo, long id, String nombre, long telefono, String zona) {
+    public Repartidor(double calificacion, double saldo, long id, String nombre, long telefono, String zona) {
         super(id, nombre, telefono, zona);
-        this.disponibilidad = disponibilidad;
+        this.disponibilidad = true;
         this.calificacion = calificacion;
         this.saldo = saldo;
+        this.calificaciones = 1;
+        this.historialPedidos=new Pila<>();
     }
 
-    public long getSaldo() {
+
+
+
+    
+    public double getSaldo() {
         return saldo;
     }
 
-    public void setSaldo(long saldo) {
+    public void setSaldo(double saldo) {
         this.saldo = saldo;
     }
 
@@ -47,7 +48,23 @@ public class Repartidor extends Persona{
 
     @Override
     public String toString() {
-        return "Repartidor{" + "disponibilidad=" + disponibilidad + ", calificacion=" + calificacion + ", saldo=" + saldo + '}';
+        return "REPARTIDOR: " +super.getNombre()+ "\t" + (disponibilidad?"   Disponible":"   Ocupado   ") + "(" + calificacion + "+)   "+super.getZona();
+    }
+
+    public int getCalificaciones() {
+        return calificaciones;
+    }
+
+    public void setCalificaciones(int calificaciones) {
+        this.calificaciones = calificaciones;
+    }
+
+    public Pila<Pedido> getHistorialPedidos() {
+        return historialPedidos;
+    }
+
+    public void setHistorialPedidos(Pila<Pedido> historialPedidos) {
+        this.historialPedidos = historialPedidos;
     }
    
     
