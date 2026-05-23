@@ -1,8 +1,8 @@
+package modelo;
 
-package Model;
+import estructura.Pila;
 
-
-public class Cliente extends Persona{
+public class Cliente extends Persona {
 
    private String direccion;   
    private boolean vip;
@@ -13,8 +13,8 @@ public class Cliente extends Persona{
         super(id, nombre, telefono, zona);
         this.direccion = direccion;
         this.vip = vip;
-        this.historialPedidos= new Pila<>();
-        this.penalizacion=0;
+        this.historialPedidos = new Pila<>();
+        this.penalizacion = 0;
     }
 
     public boolean isVip() {
@@ -35,7 +35,7 @@ public class Cliente extends Persona{
 
     @Override
     public String toString() {
-        return "Cliente: " +super.getNombre()+" "+(vip?"PREMIUM":"")+ "\ndireccion: " + direccion + "\tzona: "+super.getZona()+"\n";
+        return "Cliente: " + super.getNombre() + " " + (vip ? "PREMIUM" : "") + "\ndireccion: " + direccion + "\tzona: " + super.getZona() + "\n";
     }
 
     public Pila<Pedido> getHistorialPedidos() {

@@ -1,5 +1,7 @@
-package Model;
+package modelo;
 
+import estructura.ListaSimple;
+import estructura.Nodo;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -25,9 +27,9 @@ public class Pedido {
         this.valorDomicilio = 0;
         this.valorTotal = 0;
         this.fecha = fechaHora;
-        this.estadoActual=EstadoPedido.RECIBIDO;
+        this.estadoActual = EstadoPedido.RECIBIDO;
         this.productosElegidos = new ListaSimple<>();
-        this.tiempoEstimado=0;
+        this.tiempoEstimado = 0;
     }
 
     public Comercio getTienda() {
@@ -102,8 +104,6 @@ public class Pedido {
         this.estadoActual = estadoActual;
     }
 
-
-
     public String getFecha() {
         return fecha;
     }
@@ -115,6 +115,10 @@ public class Pedido {
     LocalDateTime ahora = LocalDateTime.now();
     DateTimeFormatter formato = DateTimeFormatter.ofPattern("EEEE dd/MM/yyyy HH:mm:ss");
     String fechaHora = ahora.format(formato);
+
+    public String getFechaHora() {
+        return fechaHora;
+    }
 
     @Override
     public String toString() {
@@ -128,33 +132,33 @@ public class Pedido {
                 + "\nvalor Total:\t" + valorTotal
                 + "\nPedido " + estadoActual
                 + "\n" 
-                + ((rappi!=null)?"REPARTIDOR: " +rappi.getNombre()+"   ("+rappi.getCalificacion()+" +) "+rappi.getZona()+"\nTiempoExtimado: "+tiempoEstimado+" minutos":"")
+                + ((rappi != null) ? "REPARTIDOR: " + rappi.getNombre() + "   (" + rappi.getCalificacion() + " +) " + rappi.getZona() + "\nTiempoExtimado: " + tiempoEstimado + " minutos" : "")
                 + "\n";
     }
 
     public void agregarProducto(int codigoProducto, int cantidadElegida) {
         Producto nuevo = tienda.buscarProducto(codigoProducto);
-        if (nuevo != null&&nuevo.getCantidad()>=cantidadElegida) {
+        if (nuevo != null && nuevo.getCantidad() >= cantidadElegida) {
             if (productosElegidos.buscarCodigo(codigoProducto)) {
                 Nodo actual = productosElegidos.getPrimero();
                 while (actual != null) {
                     Producto p = (Producto) actual.getDato();
-                    if (p.getCodigoProducto() == codigoProducto&&nuevo.getCantidad()>=cantidadElegida) {
-                        p.setCantidad(p.getCantidad()+cantidadElegida);
-                        p.setPrecio(p.getPrecio()+(nuevo.getPrecio()*cantidadElegida));
+                    if (p.getCodigoProducto() == codigoProducto && nuevo.getCantidad() >= cantidadElegida) {
+                        p.setCantidad(p.getCantidad() + cantidadElegida);
+                        p.setPrecio(p.getPrecio() + (nuevo.getPrecio() * cantidadElegida));
                         break;
                     }
                     actual = actual.getSiguiente();
                 }
             } else {
-                if (nuevo.getCantidad()>=cantidadElegida) {
+                if (nuevo.getCantidad() >= cantidadElegida) {
                 Producto elegido = new Producto(nuevo.getCodigoProducto(), nuevo.getNombre(), nuevo.getPrecio() * cantidadElegida, cantidadElegida);
                 productosElegidos.insertarPrimero(elegido);
                 }
             }
-            valorDeProducto += ((int)nuevo.getPrecio() * cantidadElegida);
+            valorDeProducto += ((int) nuevo.getPrecio() * cantidadElegida);
             nuevo.setCantidad(nuevo.getCantidad() - cantidadElegida);
-            estadoActual=EstadoPedido.ESPERANDO_REPARTIDOR;
+            estadoActual = EstadoPedido.ESPERANDO_REPARTIDOR;
             System.out.println("Tu pedido fue recibido");
         }
     }
@@ -166,20 +170,20 @@ public class Pedido {
                 Nodo actual = productosElegidos.getPrimero();
                 while (actual != null) {
                     Producto p = (Producto) actual.getDato();
-                    if (p.getCodigoProducto() == codigoProducto&&p.getCantidad()>=cantidadElegida) {
-                        if (p.getCantidad()-cantidadElegida==0) {
+                    if (p.getCodigoProducto() == codigoProducto && p.getCantidad() >= cantidadElegida) {
+                        if (p.getCantidad() - cantidadElegida == 0) {
                             productosElegidos.eliminarPrimero();
                            valorDeProducto -= nuevo.getPrecio() * cantidadElegida;
                             break;
                         }
                         System.out.println("Producto eliminado");
-                        p.setCantidad(p.getCantidad()-cantidadElegida);
-                        p.setPrecio(p.getPrecio()-(nuevo.getPrecio()*cantidadElegida));
+                        p.setCantidad(p.getCantidad() - cantidadElegida);
+                        p.setPrecio(p.getPrecio() - (nuevo.getPrecio() * cantidadElegida));
                         valorDeProducto -= nuevo.getPrecio() * cantidadElegida;
                         nuevo.setCantidad(nuevo.getCantidad() + cantidadElegida);
-                        estadoActual=EstadoPedido.ESPERANDO_REPARTIDOR;
+                        estadoActual = EstadoPedido.ESPERANDO_REPARTIDOR;
                         break;
-                    }else{
+                    } else {
                     actual = actual.getSiguiente();
                     }
                 }

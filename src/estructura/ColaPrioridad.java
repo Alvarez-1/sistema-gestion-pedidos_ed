@@ -1,4 +1,4 @@
-package Model;
+package estructura;
 
 public class ColaPrioridad<T> {
 

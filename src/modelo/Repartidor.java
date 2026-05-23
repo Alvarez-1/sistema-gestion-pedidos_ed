@@ -1,13 +1,14 @@
+package modelo;
 
-package Model;
+import estructura.Pila;
 
-public class Repartidor extends Persona{
+public class Repartidor extends Persona {
    
    private boolean disponibilidad;
    private double calificacion;
    private int calificaciones;
    private double saldo;
-      private Pila<Pedido> historialPedidos;
+   private Pila<Pedido> historialPedidos;
 
     public Repartidor(double calificacion, double saldo, long id, String nombre, long telefono, String zona) {
         super(id, nombre, telefono, zona);
@@ -15,7 +16,7 @@ public class Repartidor extends Persona{
         this.calificacion = calificacion;
         this.saldo = saldo;
         this.calificaciones = 1;
-        this.historialPedidos=new Pila<>();
+        this.historialPedidos = new Pila<>();
     }
 
 
@@ -48,7 +49,7 @@ public class Repartidor extends Persona{
 
     @Override
     public String toString() {
-        return "REPARTIDOR: " +super.getNombre()+ "\t" + (disponibilidad?"   Disponible":"   Ocupado   ") + "(" + calificacion + "+)   "+super.getZona();
+        return "REPARTIDOR: " + super.getNombre() + "\t" + (disponibilidad ? "   Disponible" : "   Ocupado   ") + "(" + calificacion + "+)   " + super.getZona();
     }
 
     public int getCalificaciones() {

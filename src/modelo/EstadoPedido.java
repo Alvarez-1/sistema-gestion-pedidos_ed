@@ -1,4 +1,4 @@
-package Model;
+package modelo;
 
 public enum EstadoPedido {
     RECIBIDO,
