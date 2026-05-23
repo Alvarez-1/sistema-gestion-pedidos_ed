@@ -126,9 +126,13 @@ public class NewMain {
         guardarUsuario(usuario9, admi);
        
         guardarPedidoPendientes(pedido1, admi);
+        admi.registrarPedidoEnMapa(pedido1);
         guardarPedidoPendientes(pedido2, admi);
+        admi.registrarPedidoEnMapa(pedido2);
         guardarPedidoPendientes(pedido3, admi);
+        admi.registrarPedidoEnMapa(pedido3);
         guardarPedidoPendientes(pedido4, admi);
+        admi.registrarPedidoEnMapa(pedido4);
         
         System.out.println(admi);
         Cliente c = pedido2.getUsuario();

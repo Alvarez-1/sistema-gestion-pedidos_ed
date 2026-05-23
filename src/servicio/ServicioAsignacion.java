@@ -13,6 +13,7 @@ public class ServicioAsignacion {
     private Cola<Pedido> pedidoParaEntregar;
     private HashMap<Long, Cliente> clientes;
     private HashMap<Long, Repartidor> usuariosRepartidores;
+    private HashMap<Integer, Pedido> pedidosPorCodigo;
     private long saldo;
     private int pedidosCancelados;
 
@@ -24,6 +25,7 @@ public class ServicioAsignacion {
         this.clientes = new HashMap<>();
         this.usuariosRepartidores = new HashMap<>();
         this.historialCancelados = new Pila<>();
+        this.pedidosPorCodigo = new HashMap<>();
         this.saldo = 0;
         this.pedidosCancelados = 0;
     }
@@ -74,6 +76,16 @@ public class ServicioAsignacion {
 
     public void setUsuariosRepartidores(HashMap<Long, Repartidor> usuariosRepartidores) {
         this.usuariosRepartidores = usuariosRepartidores;
+    }
+
+    public HashMap<Integer, Pedido> getPedidosPorCodigo() {
+        return pedidosPorCodigo;
+    }
+
+    public void registrarPedidoEnMapa(Pedido pedido) {
+        if (pedido != null) {
+            pedidosPorCodigo.put(pedido.getCodigo(), pedido);
+        }
     }
 
     @Override
@@ -457,51 +469,6 @@ public class ServicioAsignacion {
     }
 
     public Pedido buscarPedido(int codigo) {
-        if (pedidosPendientes.getTamanio() != 0) {
-            for (int i = 0; i < pedidosPendientes.getTamanio() + 1; i++) {
-                Pedido aux = pedidosPendientes.getPrimero().getDato();
-                pedidosPendientes.desencolar();
-                if (aux.getCodigo() != codigo) {
-                    pedidosPendientes.encolar(aux, 0);
-                } else {
-                    return aux;
-                }
-            }
-        }
-
-        if (pedidoParaEntregar.getTamanio() != 0) {
-            for (int i = 0; i < pedidoParaEntregar.getTamanio() + 1; i++) {
-                Pedido aux = pedidoParaEntregar.getPrimero().getDato();
-                pedidoParaEntregar.desencolar();
-                if (aux.getCodigo() != codigo) {
-                    pedidoParaEntregar.encolar(aux);
-                } else {
-                    return aux;
-                }
-            }
-        }
-
-        if (historialEntregas.getTamanio() != 0) {
-            Nodo actual = historialEntregas.getCima();
-            while (actual != null) {
-                Pedido p = (Pedido) actual.getDato();
-                if (p.getCodigo() == codigo) {
-                    return p;
-                }
-                actual = actual.getSiguiente();
-            }
-        }
-
-        if (historialCancelados.getTamanio() != 0) {
-            Nodo actual1 = historialCancelados.getCima();
-            while (actual1 != null) {
-                Pedido p = (Pedido) actual1.getDato();
-                if (p.getCodigo() == codigo) {
-                    return p;
-                }
-                actual1 = actual1.getSiguiente();
-            }
-        }
-        return null;
+        return pedidosPorCodigo.get(codigo);
     }
 }
