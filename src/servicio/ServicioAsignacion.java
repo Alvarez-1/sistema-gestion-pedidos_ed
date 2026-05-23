@@ -1,8 +1,10 @@
-package Model;
+package servicio;
 
+import modelo.*;
+import estructura.*;
 import java.util.HashMap;
 
-public class Asignacion {
+public class ServicioAsignacion {
 
     private ColaPrioridad<Pedido> pedidosPendientes;
     private Pila<Pedido> historialEntregas;
@@ -14,7 +16,7 @@ public class Asignacion {
     private long saldo;
     private int pedidosCancelados;
 
-    public Asignacion() {
+    public ServicioAsignacion() {
         this.pedidosPendientes = new ColaPrioridad<>();
         this.repartidores = new ColaPrioridad<>();
         this.historialEntregas = new Pila<>();
@@ -124,7 +126,7 @@ public class Asignacion {
 
             primero.setDisponibilidad(false);
             repartidores.encolar(primero, primero.isDisponibilidad() ? 1 : 0);
-            System.out.println(primero.getNombre()+" fue asignado a tu pedido"+pedido.getCodigo());
+            System.out.println(primero.getNombre() + " fue asignado a tu pedido" + pedido.getCodigo());
         }
     }
 
@@ -164,7 +166,7 @@ public class Asignacion {
                 pedidoParaEntregar.encolar(aux);
             }
         }
-        System.out.println("Pedido "+repartidor.getCodigo()+" entregado correctamente");
+        System.out.println("Pedido " + repartidor.getCodigo() + " entregado correctamente");
     }
 
     public int calcularDomicilio(Pedido pedido) {
@@ -204,7 +206,7 @@ public class Asignacion {
             costoCantidad = 3000;
         }
         //para hora
-        String fecha = pedido.fechaHora;
+        String fecha = pedido.getFechaHora();
         int hora = Integer.parseInt(fecha.split(" ")[2].split(":")[0]);
         if (hora <= 6) {
             costoHorario = 3000;
@@ -223,9 +225,9 @@ public class Asignacion {
             costoPrioridad += 0.1;
         }
         if (usuario.isVip()) {
-            if (dia.equals("sabado")||dia.equals("domingo")) {
-                costoPrioridad=1;
-            }else{
+            if (dia.equals("sabado") || dia.equals("domingo")) {
+                costoPrioridad = 1;
+            } else {
             costoPrioridad += 0.2;
             }
         } else {
@@ -253,23 +255,23 @@ public class Asignacion {
         EstadoPedido estado = pedido.getEstadoActual();
         long pago = 0;
         if (estado == EstadoPedido.ENTREGADO) {
-            System.out.println("No se puede cancelar el pedido "+pedido.getCodigo());
+            System.out.println("No se puede cancelar el pedido " + pedido.getCodigo());
             return;
         }
         if (null == estado) {
-            System.out.println("Pedido "+pedido.getCodigo()+ " cancelado correctamente");
+            System.out.println("Pedido " + pedido.getCodigo() + " cancelado correctamente");
         } else {
             switch (estado) {
                 case REPARTIDOR_ASIGNADO -> {
-                    System.out.println("Pedido "+pedido.getCodigo()+ " cancelado. Penalizacion: $2000");
+                    System.out.println("Pedido " + pedido.getCodigo() + " cancelado. Penalizacion: $2000");
                     pago = 2000;
                 }
                 case EN_CAMINO -> {
-                    System.out.println("Pedido "+pedido.getCodigo()+ " cancelado. Penalizacion: $5000");
+                    System.out.println("Pedido " + pedido.getCodigo() + " cancelado. Penalizacion: $5000");
                     pago = 5000;
                 }
                 default ->
-                    System.out.println("Pedido "+pedido.getCodigo()+ " cancelado correctamente");
+                    System.out.println("Pedido " + pedido.getCodigo() + " cancelado correctamente");
             }
         }
         Repartidor r = pedido.getRappi();
@@ -340,7 +342,7 @@ public class Asignacion {
     public void avanzarEstado(Pedido pedido) {
         if (pedido.getEstadoActual() == EstadoPedido.REPARTIDOR_ASIGNADO) {
             pedido.setEstadoActual(EstadoPedido.EN_CAMINO);
-            System.out.println("Pedido "+pedido.getCodigo()+" va en camino...");
+            System.out.println("Pedido " + pedido.getCodigo() + " va en camino...");
         } else if (pedido.getEstadoActual() == EstadoPedido.EN_CAMINO) {
             finalizarPedido(pedido);
         }

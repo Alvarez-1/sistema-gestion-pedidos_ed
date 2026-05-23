@@ -1,24 +1,29 @@
-package Model;
+package demo;
+
+import modelo.*;
+import estructura.*;
+import servicio.ServicioAsignacion;
 
 public class NewMain {
 
-    static void guardarRepartidor(Repartidor r,Asignacion a){
+    static void guardarRepartidor(Repartidor r, ServicioAsignacion a) {
     a.getUsuariosRepartidores().put(r.getId(), r);
-    a.getRepartidores().encolar(r, r.isDisponibilidad()?1:0);
+    a.getRepartidores().encolar(r, r.isDisponibilidad() ? 1 : 0);
     }
     
-    static void guardarUsuario(Cliente c,  Asignacion a){
+    static void guardarUsuario(Cliente c, ServicioAsignacion a) {
     a.getClientes().put(c.getId(), c);
     }
     
-    static void guardarPedidoPendientes(Pedido p,Asignacion a){
-    a.getPedidosPendientes().encolar(p, p.getUsuario().isVip()?1:0);
+    static void guardarPedidoPendientes(Pedido p, ServicioAsignacion a) {
+    a.getPedidosPendientes().encolar(p, p.getUsuario().isVip() ? 1 : 0);
     }
     
-    static void guardarProducto(Pedido p,int Codigo, int Cantidad){
+    static void guardarProducto(Pedido p, int Codigo, int Cantidad) {
     p.agregarProducto(Codigo, Cantidad);
     }
-    static void guardarProductoLista(ListaSimple<Producto> ls,Producto p){
+
+    static void guardarProductoLista(ListaSimple<Producto> ls, Producto p) {
     ls.insertarUltimo(p);
     }
     
@@ -102,7 +107,7 @@ public class NewMain {
         //administracion y asignacion de repartidores
         usuario14.setDisponibilidad(false);
 
-        Asignacion admi = new Asignacion();
+        ServicioAsignacion admi = new ServicioAsignacion();
         
         guardarRepartidor(usuario10, admi);
         guardarRepartidor(usuario11, admi);

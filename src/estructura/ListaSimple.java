@@ -1,4 +1,6 @@
-package Model;
+package estructura;
+
+import modelo.Producto;
 
 public class ListaSimple<T> {
 

@@ -1,5 +1,4 @@
-
-package Model;
+package estructura;
 
 public class NodoPrioridad<T> {
     private T dato;

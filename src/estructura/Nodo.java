@@ -1,4 +1,4 @@
-package Model;
+package estructura;
 
 public class Nodo<T> {
 
@@ -37,4 +37,3 @@ public class Nodo<T> {
     }
     
 }
-   

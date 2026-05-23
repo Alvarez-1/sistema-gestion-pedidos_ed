@@ -29,3 +29,21 @@ hs_err_pid*
 nbproject/
 build/
 dist/
+
+# Archivos generados por IntelliJ
+out/
+*.class
+
+# IntelliJ IDEA
+.idea/
+*.iml
+
+# NetBeans
+nbproject/private/
+build/
+dist/
+
+# Archivos sensibles
+.env
+config.properties
+secrets.properties

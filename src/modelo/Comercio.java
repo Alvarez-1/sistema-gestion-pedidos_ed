@@ -1,4 +1,7 @@
-package Model;
+package modelo;
+
+import estructura.ListaSimple;
+import estructura.Nodo;
 
 public class Comercio {
 
@@ -68,7 +71,7 @@ public class Comercio {
 
     @Override
     public String toString() {
-        return nombre.toUpperCase() + "\nCodigo: "+codigo+"\ntipoNegocio: " + tipoNegocio + "\ndireccion:" + direccion + "\tzona:" + zona + "\nPRODUCTOS\n" + productos.mostrar();
+        return nombre.toUpperCase() + "\nCodigo: " + codigo + "\ntipoNegocio: " + tipoNegocio + "\ndireccion:" + direccion + "\tzona:" + zona + "\nPRODUCTOS\n" + productos.mostrar();
     }
 
    public Producto buscarProducto(int codigo) {
