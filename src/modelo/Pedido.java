@@ -132,7 +132,7 @@ public class Pedido {
                 + "\nvalor Total:\t" + valorTotal
                 + "\nPedido " + estadoActual
                 + "\n" 
-                + ((rappi != null) ? "REPARTIDOR: " + rappi.getNombre() + "   (" + rappi.getCalificacion() + " +) " + rappi.getZona() + "\nTiempoExtimado: " + tiempoEstimado + " minutos" : "")
+                + ((rappi != null) ? "REPARTIDOR: " + rappi.getNombre() + "   (" + rappi.getCalificacion() + " +) " + rappi.getZona() + "\nTiempoEstimado: " + tiempoEstimado + " minutos" : "")
                 + "\n";
     }
 
@@ -199,6 +199,8 @@ public class Pedido {
         this.tiempoEstimado = tiempoEstimado;
     }
 
-    
+    public boolean tieneProductos() {
+        return productosElegidos != null && productosElegidos.getPrimero() != null;
+    }
     
 }
