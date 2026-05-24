@@ -73,6 +73,21 @@ public class ServicioArchivos {
                     continue;
                 }
                 String[] tokens = linea.split(",");
+
+                if (tokens.length >= 7) {
+                    try {
+                        long id = Long.parseLong(tokens[0].trim());
+                        String nombre = tokens[1].trim();
+                        long telefono = Long.parseLong(tokens[2].trim());
+                        String zona = tokens[3].trim();
+                        double calificacion = Double.parseDouble(tokens[4].trim());
+                        double saldo = Double.parseDouble(tokens[5].trim());
+                        boolean disponible = Boolean.parseBoolean(tokens[6].trim());
+                        
+                        Repartidor r = new Repartidor(calificacion, saldo, id, nombre, telefono, zona);
+                        r.setDisponibilidad(disponible);
+                        cola.encolar(r, disponible ? 1 : 0);
+
                 if (tokens.length >= 6) {
                     try {
                         double calificacion = Double.parseDouble(tokens[0].trim());
@@ -84,6 +99,7 @@ public class ServicioArchivos {
                         
                         Repartidor r = new Repartidor(calificacion, saldo, id, nombre, telefono, zona);
                         cola.encolar(r, 1); // Disponible por defecto con prioridad 1
+
                     } catch (NumberFormatException e) {
                         System.err.println("Error al parsear línea de repartidores: " + linea + " -> " + e.getMessage());
                     }

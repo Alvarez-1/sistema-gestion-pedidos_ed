@@ -34,6 +34,16 @@ dist/
 out/
 *.class
 
+# Exportaciones y comprobantes generados por el sistema
+exportaciones/
+comprobantes/
+
+# Configuración y credenciales locales
+.env
+config.properties
+secrets.properties
+application-local.properties
+
 # IntelliJ IDEA
 .idea/
 *.iml
