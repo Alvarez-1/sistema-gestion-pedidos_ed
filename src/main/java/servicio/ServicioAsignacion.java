@@ -339,7 +339,7 @@ public class ServicioAsignacion {
         pedidosCancelados++;
         pedido.setEstadoActual(EstadoPedido.CANCELADO);
         
-        // Agregar al historial del cliente y establecer penalización (siempre y cuando el cliente no sea nulo)
+        // Agregar al historial del cliente y penalizar
         if (pedido.getUsuario() != null) {
             pedido.getUsuario().getHistorialPedidos().apilar(pedido);
             pedido.getUsuario().setPenalizacion(pago);
@@ -350,7 +350,7 @@ public class ServicioAsignacion {
             pedido.getRappi().getHistorialPedidos().apilar(pedido);
         }
         
-        // Siempre agregar al historial general de cancelados
+        // Agregar al historial cancelados
         historialCancelados.apilar(pedido);
     }
 
