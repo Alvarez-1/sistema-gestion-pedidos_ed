@@ -12,11 +12,6 @@ public class ConexionBD {
         this.configuracion = new ConfiguracionApp();
     }
 
-    /**
-     * Obtiene una nueva conexión a la base de datos PostgreSQL.
-     * @return Connection objeto de conexión
-     * @throws SQLException si ocurre un error al conectar
-     */
     public Connection obtenerConexion() throws SQLException {
         String url = configuracion.getDbUrl();
         String user = configuracion.getDbUser();
@@ -29,10 +24,6 @@ public class ConexionBD {
         return DriverManager.getConnection(url, user, password);
     }
 
-    /**
-     * Prueba la conexión a la base de datos e imprime el resultado.
-     * @return true si la conexión fue exitosa, false de lo contrario.
-     */
     public boolean probarConexion() {
         try (Connection conn = obtenerConexion()) {
             if (conn != null && !conn.isClosed()) {

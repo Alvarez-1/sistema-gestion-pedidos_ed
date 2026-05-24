@@ -25,7 +25,7 @@ public class ServicioComprobante {
             return null;
         }
 
-        // Crear carpeta comprobantes si no existe
+        // Crear carpeta para los comprobantes
         File carpeta = new File("comprobantes");
         if (!carpeta.exists()) {
             carpeta.mkdirs();
@@ -113,7 +113,7 @@ public class ServicioComprobante {
             documento.add(new Paragraph(" ", fuenteTexto));
 
             // Nota obligatoria
-            Paragraph nota = new Paragraph("Documento generado con fines académicos, sin validez tributaria.", fuenteNota);
+            Paragraph nota = new Paragraph("By FloYa.", fuenteNota);
             nota.setAlignment(Element.ALIGN_CENTER);
             documento.add(nota);
 

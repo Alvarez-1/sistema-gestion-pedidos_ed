@@ -99,7 +99,7 @@ public class ServicioArchivos {
 
     public void exportarEstadisticasCSV(String rutaArchivo, ServicioAsignacion servicio) {
         File archivo = new File(rutaArchivo);
-        // Asegurar que el directorio padre existe
+        // Valida que el directorio exista
         File parent = archivo.getParentFile();
         if (parent != null && !parent.exists()) {
             parent.mkdirs();
