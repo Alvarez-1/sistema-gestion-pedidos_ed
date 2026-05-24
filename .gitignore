@@ -47,3 +47,6 @@ dist/
 .env
 config.properties
 secrets.properties
+
+# Maven
+target/
