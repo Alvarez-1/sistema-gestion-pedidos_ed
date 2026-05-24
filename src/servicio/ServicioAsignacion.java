@@ -264,7 +264,14 @@ public class ServicioAsignacion {
     }
 
     public void cancelarPedido(Pedido pedido) {
+        if (pedido == null) {
+            return;
+        }
         EstadoPedido estado = pedido.getEstadoActual();
+        if (estado == EstadoPedido.CANCELADO) {
+            System.out.println("El pedido " + pedido.getCodigo() + " ya esta cancelado.");
+            return;
+        }
         long pago = 0;
         if (estado == EstadoPedido.ENTREGADO) {
             System.out.println("No se puede cancelar el pedido " + pedido.getCodigo());
@@ -318,9 +325,12 @@ public class ServicioAsignacion {
                 }
             }
         } else if (pedido.getEstadoActual() == EstadoPedido.ESPERANDO_REPARTIDOR) {
-            for (int i = 0; i < pedidosPendientes.getTamanio() + 1; i++) {
+            int tamanioOriginal = pedidosPendientes.getTamanio();
+
+            for (int i = 0; i < tamanioOriginal; i++) {
                 Pedido aux = pedidosPendientes.getPrimero().getDato();
                 pedidosPendientes.desencolar();
+
                 if (aux.getCodigo() != pedido.getCodigo()) {
                     pedidosPendientes.encolar(aux, 0);
                 }
@@ -328,12 +338,20 @@ public class ServicioAsignacion {
         }
         pedidosCancelados++;
         pedido.setEstadoActual(EstadoPedido.CANCELADO);
-        if (pedido.getRappi() != null) {
+        
+        // Agregar al historial del cliente y establecer penalización (siempre y cuando el cliente no sea nulo)
+        if (pedido.getUsuario() != null) {
             pedido.getUsuario().getHistorialPedidos().apilar(pedido);
             pedido.getUsuario().setPenalizacion(pago);
-            pedido.getRappi().getHistorialPedidos().apilar(pedido);
-            historialCancelados.apilar(pedido);
         }
+        
+        // Si tiene repartidor asignado, agregar a su historial
+        if (pedido.getRappi() != null) {
+            pedido.getRappi().getHistorialPedidos().apilar(pedido);
+        }
+        
+        // Siempre agregar al historial general de cancelados
+        historialCancelados.apilar(pedido);
     }
 
     public void calificarPedido(Repartidor repartidor, double calificacion) {
