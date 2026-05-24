@@ -16,7 +16,16 @@ public class NewMain {
     }
     
     static void guardarPedidoPendientes(Pedido p, ServicioAsignacion a) {
-    a.getPedidosPendientes().encolar(p, p.getUsuario().isVip() ? 1 : 0);
+        if (p == null) {
+            System.out.println("El pedido es nulo, no se puede guardar.");
+            return;
+        }
+        if (!p.tieneProductos()) {
+            System.out.println("El pedido " + p.getCodigo() + " no se puede registrar porque no tiene productos validos.");
+            return;
+        }
+        a.getPedidosPendientes().encolar(p, p.getUsuario().isVip() ? 1 : 0);
+        a.registrarPedidoEnMapa(p);
     }
     
     static void guardarProducto(Pedido p, int Codigo, int Cantidad) {
@@ -56,15 +65,15 @@ public class NewMain {
         Producto Producto9 = new Producto(9, "detalles grandes", 50000, 4);
         Producto Producto10 = new Producto(10, "colchones", 85000, 5);
         Producto Producto11 = new Producto(11, "cobijas", 37000, 4);
-        Producto Producto12 = new Producto(12, "almoadas", 10000, 8);
+        Producto Producto12 = new Producto(12, "almohadas", 10000, 8);
         //lista de tiendas con sus productos
-        ListaSimple<Producto> listaCostructora = new ListaSimple<>();
+        ListaSimple<Producto> listaConstructora = new ListaSimple<>();
         ListaSimple<Producto> listaDetalles = new ListaSimple<>();
         ListaSimple<Producto> listaColchones = new ListaSimple<>();
-        guardarProductoLista(listaCostructora, Producto2);
-        guardarProductoLista(listaCostructora, Producto3);
-        guardarProductoLista(listaCostructora, Producto4);
-        guardarProductoLista(listaCostructora, Producto5);
+        guardarProductoLista(listaConstructora, Producto2);
+        guardarProductoLista(listaConstructora, Producto3);
+        guardarProductoLista(listaConstructora, Producto4);
+        guardarProductoLista(listaConstructora, Producto5);
         guardarProductoLista(listaDetalles, Producto1);
         guardarProductoLista(listaDetalles, Producto6);
         guardarProductoLista(listaDetalles, Producto7);
@@ -75,16 +84,16 @@ public class NewMain {
         guardarProductoLista(listaColchones, Producto12);
         
         //tiendas como tal
-        Comercio Contructora = new Comercio(1, "Constructora", "Venta de materiales para la contruccion", "carrera", "Norte", listaCostructora);
+        Comercio Constructora = new Comercio(1, "Constructora", "Venta de materiales para la construcción", "carrera", "Norte", listaConstructora);
         Comercio Decoracion = new Comercio(2, "Decoraciones", "Venta de decoraciones para dias especiales", "carrera", "Sur", listaDetalles);
         Comercio Colchon = new Comercio(3, "Colchoneria", "Venta de articulos de la comodidad de la habitacion", "carrera", "Este", listaColchones);
 
 
         //pedidos y agregacion de productos elegidos
-        Pedido pedido1 = new Pedido(1, usuario1, Contructora);
+        Pedido pedido1 = new Pedido(1, usuario1, Constructora);
         Pedido pedido2 = new Pedido(2, usuario4, Colchon);
         Pedido pedido3 = new Pedido(3, usuario6, Decoracion);
-        Pedido pedido4 = new Pedido(4, usuario9, Contructora);
+        Pedido pedido4 = new Pedido(4, usuario9, Constructora);
 
         guardarProducto(pedido1, 2, 5);
         guardarProducto(pedido1, 2, 5);
@@ -126,13 +135,9 @@ public class NewMain {
         guardarUsuario(usuario9, admi);
        
         guardarPedidoPendientes(pedido1, admi);
-        admi.registrarPedidoEnMapa(pedido1);
         guardarPedidoPendientes(pedido2, admi);
-        admi.registrarPedidoEnMapa(pedido2);
         guardarPedidoPendientes(pedido3, admi);
-        admi.registrarPedidoEnMapa(pedido3);
         guardarPedidoPendientes(pedido4, admi);
-        admi.registrarPedidoEnMapa(pedido4);
         
         System.out.println(admi);
         Cliente c = pedido2.getUsuario();
@@ -162,7 +167,12 @@ public class NewMain {
         
         admi.mostrarEstadisticas();
 
-        System.out.println(admi.buscarPedido(3));
+        Pedido pedidoBuscado = admi.buscarPedido(3);
+        if (pedidoBuscado != null) {
+            System.out.println(pedidoBuscado);
+        } else {
+            System.out.println("Pedido no encontrado o no registrado por no tener productos validos.");
+        }
         
     }
 
