@@ -50,3 +50,6 @@ secrets.properties
 
 # Maven
 target/
+
+# Configuración Local
+application-local.properties
