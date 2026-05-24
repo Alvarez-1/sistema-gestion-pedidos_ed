@@ -53,3 +53,7 @@ target/
 
 # Configuración Local
 application-local.properties
+
+# Carpetas de exportaciones y comprobantes generados
+exportaciones/
+comprobantes/
