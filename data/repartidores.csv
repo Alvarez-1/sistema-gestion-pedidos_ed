@@ -1,0 +1,6 @@
+id_repartidor,nombre,telefono,zona,calificacion,saldo,disponible
+10,Alejandro,101,Sur,4.5,0,true
+11,Camila,111,Norte,3.5,0,true
+12,Mariano,121,Este,2.6,0,true
+13,Carlos,131,Oeste,5.0,0,true
+14,Juan,141,Sur,4.0,0,false

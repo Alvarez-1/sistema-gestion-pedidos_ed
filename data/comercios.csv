@@ -1,0 +1,4 @@
+id_comercio,nombre,tipo_negocio,direccion,zona
+1,Constructora,Venta de materiales para la construcción,carrera,Norte
+2,Decoraciones,Venta de decoraciones para días especiales,carrera,Sur
+3,Colchonería,Venta de artículos para el descanso,carrera,Este
