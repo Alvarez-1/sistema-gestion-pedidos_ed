@@ -2,7 +2,7 @@ package demo;
 
 import modelo.*;
 import estructura.*;
-import servicio.ServicioAsignacion;
+import servicio.*;
 
 public class NewMain {
 
@@ -174,6 +174,17 @@ public class NewMain {
             System.out.println("Pedido no encontrado o no registrado por no tener productos validos.");
         }
         
+        System.out.println("\n----- PRUEBAS ARCHIVOS Y PDF -----");
+        ServicioComprobante servicioComprobante = new ServicioComprobante();
+        servicioComprobante.generarComprobantePedidoPDF(pedido4);
+        
+        ServicioArchivos servicioArchivos = new ServicioArchivos();
+        servicioArchivos.exportarEstadisticasCSV("exportaciones/reporte_estadisticas.csv", admi);
+        
+        System.out.println("Importando CSV de prueba para verificar funcionamiento...");
+        servicioArchivos.importarProductosCSV("data/productos.csv");
+        servicioArchivos.importarRepartidoresCSV("data/repartidores.csv");
+        System.out.println("¡Pruebas de archivos completadas con éxito!");
     }
 
 }
