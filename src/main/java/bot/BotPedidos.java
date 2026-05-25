@@ -48,9 +48,13 @@ public class BotPedidos extends TelegramLongPollingBot {
     private int contadorPedidosTelegram = 1000;
 
     public BotPedidos() {
+        this(new ServicioAsignacion());
+    }
+
+    public BotPedidos(ServicioAsignacion servicioAsignacion) {
         this.configuracion = new ConfiguracionApp();
         this.servicioDatosBD = new ServicioDatosBD();
-        this.servicioAsignacion = new ServicioAsignacion();
+        this.servicioAsignacion = servicioAsignacion;
         this.servicioComprobante = new ServicioComprobante();
         this.servicioClienteBD = new ServicioClienteBD();
         
@@ -60,7 +64,9 @@ public class BotPedidos extends TelegramLongPollingBot {
         this.pedidosTemporales = new HashMap<>();
 
         // Carga inicial de repartidores para que el servicio tenga datos
-        this.servicioAsignacion.setRepartidores(servicioDatosBD.cargarRepartidores());
+        if (this.servicioAsignacion.getRepartidores() == null || this.servicioAsignacion.getRepartidores().esVacia()) {
+            this.servicioAsignacion.setRepartidores(servicioDatosBD.cargarRepartidores());
+        }
     }
 
     @Override
