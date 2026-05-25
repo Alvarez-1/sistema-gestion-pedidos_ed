@@ -9,7 +9,8 @@ CREATE TABLE IF NOT EXISTS clientes (
     zona VARCHAR(50),
     direccion VARCHAR(255),
     vip BOOLEAN DEFAULT FALSE,
-    penalizacion NUMERIC(15, 2) DEFAULT 0.0
+    penalizacion NUMERIC(15, 2) DEFAULT 0.0,
+    chat_id_telegram BIGINT UNIQUE
 );
 
 -- Tabla de Comercios

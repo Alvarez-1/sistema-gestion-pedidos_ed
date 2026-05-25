@@ -113,7 +113,7 @@ public class ServicioComprobante {
             documento.add(new Paragraph(" ", fuenteTexto));
 
             // Nota obligatoria
-            Paragraph nota = new Paragraph("By FloYa.", fuenteNota);
+            Paragraph nota = new Paragraph("By PediGo", fuenteNota);
             nota.setAlignment(Element.ALIGN_CENTER);
             documento.add(nota);
 
