@@ -11,6 +11,15 @@ public class SesionPedidoTemporal {
     private Producto productoSeleccionado;
     private ListaSimple<Comercio> comerciosDisponibles;
     private ListaSimple<Producto> productosDisponibles;
+    private boolean entregaPrioritaria;
+
+    public boolean isEntregaPrioritaria() {
+        return entregaPrioritaria;
+    }
+
+    public void setEntregaPrioritaria(boolean entregaPrioritaria) {
+        this.entregaPrioritaria = entregaPrioritaria;
+    }
 
     public Comercio getComercioSeleccionado() {
         return comercioSeleccionado;
