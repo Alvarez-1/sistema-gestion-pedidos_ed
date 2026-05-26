@@ -16,7 +16,7 @@ public class ServicioClienteBD {
     }
 
     public Cliente buscarClientePorChatId(long chatId) {
-        String sql = "SELECT id_cliente, nombre, telefono, direccion, zona, vip, penalizacion FROM clientes WHERE chat_id_telegram = ?";
+        String sql = "SELECT id_cliente, nombre, telefono, direccion, zona, vip FROM clientes WHERE chat_id_telegram = ?";
         
         try (Connection conn = conexionBD.obtenerConexion();
              PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -30,10 +30,8 @@ public class ServicioClienteBD {
                     String direccion = rs.getString("direccion");
                     String zona = rs.getString("zona");
                     boolean vip = rs.getBoolean("vip");
-                    double penalizacion = rs.getDouble("penalizacion");
                     
                     Cliente cliente = new Cliente(direccion, vip, id, nombre, telefono, zona);
-                    cliente.setPenalizacion(penalizacion);
                     return cliente;
                 }
             }

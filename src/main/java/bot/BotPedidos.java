@@ -67,6 +67,9 @@ public class BotPedidos extends TelegramLongPollingBot {
         if (this.servicioAsignacion.getRepartidores() == null || this.servicioAsignacion.getRepartidores().esVacia()) {
             this.servicioAsignacion.setRepartidores(servicioDatosBD.cargarRepartidores());
         }
+        if (this.servicioAsignacion.getUsuariosRepartidores() == null || this.servicioAsignacion.getUsuariosRepartidores().isEmpty()) {
+            this.servicioAsignacion.setUsuariosRepartidores(servicioDatosBD.cargarMapaRepartidores());
+        }
     }
 
     @Override
@@ -543,7 +546,7 @@ public class BotPedidos extends TelegramLongPollingBot {
     private String construirMensajePedidoCreado(Pedido pedido, boolean entregaPrioritaria) {
         String tipoEntrega = entregaPrioritaria ? "prioritaria" : "normal";
         String prioridadTexto = entregaPrioritaria ? "alta" : "normal";
-        String tiempoEstimado = entregaPrioritaria ? "30 segundos" : "1 minuto";
+        String tiempoAtencion = entregaPrioritaria ? "30 segundos" : "1 minuto";
 
         return "Pedido creado correctamente.\n\n" +
                "Tu pedido fue agregado a la cola de pedidos pendientes.\n" +
@@ -552,7 +555,7 @@ public class BotPedidos extends TelegramLongPollingBot {
                "Código del pedido: " + pedido.getCodigo() + ".\n" +
                "Estado: " + pedido.getEstadoActual().toString().toLowerCase().replace("_", " ") + ".\n\n" +
                "Estamos preparando tu pedido.\n" +
-               "Tiempo estimado: " + tiempoEstimado + ".";
+               "Tiempo estimado de atención inicial: " + tiempoAtencion + ".";
     }
 
     // --- CONSULTAR Y CANCELAR ---
@@ -704,6 +707,21 @@ public class BotPedidos extends TelegramLongPollingBot {
             execute(message);
         } catch (TelegramApiException e) {
             System.err.println("Error: " + e.getMessage());
+        }
+    }
+
+    /**
+     * Envía un mensaje de sistema a un usuario específico por su Chat ID.
+     * Útil para notificaciones automáticas desde la consola.
+     */
+    public void enviarMensajeSistema(long chatId, String texto) {
+        SendMessage message = new SendMessage();
+        message.setChatId(String.valueOf(chatId));
+        message.setText(texto);
+        try {
+            execute(message);
+        } catch (TelegramApiException e) {
+            System.err.println("Error al enviar mensaje de sistema: " + e.getMessage());
         }
     }
 }

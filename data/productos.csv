@@ -1,6 +1,13 @@
 id_producto,nombre,precio,cantidad,id_comercio
-1,almohadas,10000,8,3
-2,Ladrillo,2000,1000,1
-3,laminas,30000,100,1
-4,peluche,20000,4,2
-5,rosas,40000,5,2
+1,Audífonos Pro,85000,10,1
+2,Cargador Carga Rápida,45000,15,1
+3,Mouse Inalámbrico,35000,20,1
+4,Detergente Líquido,18000,50,2
+5,Escoba Multiuso,12000,30,2
+6,Papel Higiénico (12),25000,40,2
+7,Hamburguesa Especial,22000,100,3
+8,Gaseosa Litro,6000,200,3
+9,Pizza Familiar,45000,50,3
+10,Cuaderno Cuadriculado,8000,100,4
+11,Lapicero Negro,2000,500,4
+12,Resaltador Neón,3500,300,4
