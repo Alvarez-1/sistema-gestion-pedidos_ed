@@ -132,7 +132,7 @@ public class Pedido {
                 + "\nvalor Total:\t" + valorTotal
                 + "\nPedido " + estadoActual
                 + "\n" 
-                + ((rappi != null) ? "REPARTIDOR: " + rappi.getNombre() + "   (" + rappi.getCalificacion() + " +) " + rappi.getZona() + "\nTiempoEstimado: " + tiempoEstimado + " minutos" : "")
+                + ((rappi != null) ? "REPARTIDOR: " + rappi.getNombre() + "   (" + rappi.getCalificacion() + " +) " + rappi.getZona() + "\nTiempo de entrega estimado: " + tiempoEstimado + " minutos" : "")
                 + "\n";
     }
 

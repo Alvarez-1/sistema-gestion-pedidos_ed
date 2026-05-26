@@ -148,6 +148,7 @@ public class ServicioCargaInicialBD {
     }
 
     public void cargarTodo() {
+        limpiarTablas();
         System.out.println("Cargando comercios...");
         cargarComerciosDesdeCSV("data/comercios.csv");
         System.out.println("Comercios cargados correctamente.");
@@ -161,5 +162,18 @@ public class ServicioCargaInicialBD {
         System.out.println("Repartidores cargados correctamente.");
 
         System.out.println("Carga inicial finalizada.");
+    }
+
+    private void limpiarTablas() {
+        System.out.println("Limpiando tablas antes de la carga inicial...");
+        // El orden es importante por las llaves foráneas
+        String sql = "DELETE FROM productos; DELETE FROM comercios; DELETE FROM repartidores;";
+        try (Connection conn = conexionBD.obtenerConexion();
+             PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            pstmt.executeUpdate();
+            System.out.println("Tablas limpiadas.");
+        } catch (SQLException e) {
+            System.err.println("Error al limpiar tablas: " + e.getMessage());
+        }
     }
 }

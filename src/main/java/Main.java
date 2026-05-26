@@ -1,27 +1,23 @@
-import bot.BotPedidos;
-import org.telegram.telegrambots.meta.TelegramBotsApi;
-import org.telegram.telegrambots.updatesreceivers.DefaultBotSession;
-import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import servicio.ServicioAsignacion;
+import servicio.ServicioDatosBD;
 
-/**
- * Clase principal para iniciar el Sistema de Gestión de Pedidos ED.
- */
+import javax.swing.SwingUtilities;
+
+
 public class Main {
 
     public static void main(String[] args) {
-        try {
-            // Crear instancia única del servicio para compartir entre interfaces
-            ServicioAsignacion servicioAsignacion = new ServicioAsignacion();
-            
-            TelegramBotsApi botsApi = new TelegramBotsApi(DefaultBotSession.class);
-            botsApi.registerBot(new BotPedidos(servicioAsignacion));
-            
-            System.out.println("Sistema PediGo iniciado correctamente.");
-            System.out.println("Bot de Telegram activo.");
-            
-        } catch (TelegramApiException e) {
-            System.err.println("Error al iniciar PediGo: " + e.getMessage());
-        }
+        // Crear servicio
+        ServicioAsignacion servicioAsignacion = new ServicioAsignacion();
+
+        // Cargar datos
+        ServicioDatosBD servicioDatosBD = new ServicioDatosBD();
+        servicioAsignacion.setRepartidores(servicioDatosBD.cargarRepartidores());
+        servicioAsignacion.setUsuariosRepartidores(servicioDatosBD.cargarMapaRepartidores());
+
+       // Lanzar interfaz
+        SwingUtilities.invokeLater(() -> {
+            new Interfaz(servicioAsignacion);
+        });
     }
 }
